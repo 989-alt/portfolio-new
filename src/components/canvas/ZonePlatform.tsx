@@ -52,6 +52,7 @@ export default function ZonePlatform({ zone }: ZonePlatformProps) {
                 contact: "contact",
             };
             openModal({
+                isOpen: true,
                 title: zone.title,
                 description: zone.description,
                 type: typeMap[zone.id] || "about",
