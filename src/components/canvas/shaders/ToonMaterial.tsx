@@ -106,24 +106,23 @@ const ToonMaterialImpl = shaderMaterial(
 extend({ ToonMaterial: ToonMaterialImpl });
 
 // TypeScript 타입 확장
+import { ThreeElement } from "@react-three/fiber";
+
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            toonMaterial: ReactThreeFiber.Object3DNode<
-                THREE.ShaderMaterial & {
-                    uColor: THREE.Color;
-                    uShadowColor: THREE.Color;
-                    uHighlightColor: THREE.Color;
-                    uRimColor: THREE.Color;
-                    uRimPower: number;
-                    uRimIntensity: number;
-                    uLightDirection: THREE.Vector3;
-                    uShadowThreshold: number;
-                    uShadowSmoothness: number;
-                    uGradientOffset: number;
-                },
-                typeof ToonMaterialImpl
-            >;
+            toonMaterial: ThreeElement<typeof THREE.ShaderMaterial> & {
+                uColor?: THREE.Color | string;
+                uShadowColor?: THREE.Color | string;
+                uHighlightColor?: THREE.Color | string;
+                uRimColor?: THREE.Color | string;
+                uRimPower?: number;
+                uRimIntensity?: number;
+                uLightDirection?: THREE.Vector3;
+                uShadowThreshold?: number;
+                uShadowSmoothness?: number;
+                uGradientOffset?: number;
+            };
         }
     }
 }

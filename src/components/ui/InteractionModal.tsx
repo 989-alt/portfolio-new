@@ -6,7 +6,7 @@ import { useGameStore } from "@/stores/gameStore";
 import { PORTFOLIO_ZONES } from "@/lib/portfolioData";
 
 export default function InteractionModal() {
-    const { showModal, modalContent, closeModal } = useGameStore();
+    const { interactModal, closeModal } = useGameStore();
 
     // ESC 키로 닫기
     useEffect(() => {
@@ -21,13 +21,13 @@ export default function InteractionModal() {
     }, [closeModal]);
 
     // 현재 존 데이터 찾기
-    const currentZoneData = modalContent
-        ? PORTFOLIO_ZONES.find((z) => z.title === modalContent.title)
+    const currentZoneData = interactModal
+        ? PORTFOLIO_ZONES.find((z) => z.title === interactModal.title)
         : null;
 
     return (
         <AnimatePresence>
-            {showModal && modalContent && (
+            {interactModal?.isOpen && interactModal && (
                 <>
                     {/* 배경 오버레이 */}
                     <motion.div
@@ -68,51 +68,17 @@ export default function InteractionModal() {
                                         {currentZoneData?.icon || "📁"}
                                     </span>
                                     <div>
-                                        <h2 className="text-2xl font-bold">{modalContent.title}</h2>
-                                        <p className="text-white/80">{modalContent.description}</p>
+                                        <h2 className="text-2xl font-bold">{interactModal.title}</h2>
+                                        <p className="text-white/80">{interactModal.description}</p>
                                     </div>
                                 </div>
                             </div>
 
                             {/* 콘텐츠 */}
                             <div className="p-6">
-                                {currentZoneData && (
-                                    <ul className="space-y-3">
-                                        {currentZoneData.content.items.map((item, index) => (
-                                            <motion.li
-                                                key={index}
-                                                initial={{ opacity: 0, x: -20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: index * 0.1 }}
-                                                className="flex items-center gap-3 text-white/90"
-                                            >
-                                                <span
-                                                    className="w-2 h-2 rounded-full"
-                                                    style={{ backgroundColor: currentZoneData.color }}
-                                                />
-                                                {item}
-                                            </motion.li>
-                                        ))}
-                                    </ul>
-                                )}
-
-                                {/* 링크 버튼들 */}
-                                {currentZoneData?.content.links && (
-                                    <div className="mt-6 flex gap-3">
-                                        {currentZoneData.content.links.map((link, index) => (
-                                            <a
-                                                key={index}
-                                                href={link.url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="px-4 py-2 rounded-lg text-white font-medium transition-transform hover:scale-105"
-                                                style={{ backgroundColor: currentZoneData.color }}
-                                            >
-                                                {link.label}
-                                            </a>
-                                        ))}
-                                    </div>
-                                )}
+                                <p className="text-white/90 whitespace-pre-wrap">
+                                    {interactModal.description || "이 영역에 대한 상세 설명이 제공될 예정입니다."}
+                                </p>
                             </div>
 
                             {/* 푸터 */}
